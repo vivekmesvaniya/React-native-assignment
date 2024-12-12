@@ -1,6 +1,8 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
 
     <application
       android:name=".MainApplication"
@@ -10,6 +12,18 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme"
       android:supportsRtl="true">
+      <meta-data
+          android:name="com.google.android.gms.ads.APPLICATION_ID"
+          android:value="324113739001-73sdi0mjt45i819cq8cen4f9fdh44ij2.apps.googleusercontent.com" />
+      <meta-data
+        android:name="com.google.android.gms.auth.api.signin.API_KEY"
+        android:value="324113739001-73sdi0mjt45i819cq8cen4f9fdh44ij2.apps.googleusercontent.com"/>
+        <meta-data
+    android:name="com.google.android.gms.auth.api.signin.CLIENT_ID"
+    android:value="324113739001-73sdi0mjt45i819cq8cen4f9fdh44ij2.apps.googleusercontent.com" />
+
+      <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+      <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

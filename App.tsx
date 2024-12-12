@@ -1,118 +1,106 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import React, {useEffect, useState} from 'react';
+import {Button, SafeAreaView, StatusBar, Text, View} from 'react-native';
+import {AccessToken, LoginManager} from 'react-native-fbsdk-next';
+import Login from './src/screens/authentication';
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: 'white',
+    flex: 1,
   };
 
+  const [userInfo, setUserInfo] = useState<any>(null);
+
+  const onFacebookLogin = async () => {
+    try {
+      // Start the login process
+      const result = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+      ]);
+
+      if (result.isCancelled) {
+        console.log('Login cancelled');
+        return;
+      }
+
+      // Once logged in, get the access token
+      const data = await AccessToken.getCurrentAccessToken();
+
+      if (data) {
+        console.log('Facebook Access Token:', data.accessToken.toString());
+
+        // You can now use the access token to fetch user info from Facebook's Graph API
+        fetch(
+          `https://graph.facebook.com/me?access_token=${data.accessToken.toString()}&fields=id,name,email,picture`,
+        )
+          .then(response => response.json())
+          .then(json => {
+            console.log('User data from Facebook:', json);
+            setUserInfo(json);
+          })
+          .catch(error => {
+            console.log('Error fetching user data:', error);
+          });
+      }
+    } catch (error) {
+      console.error('Facebook Login Error:', error);
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    try {
+      // Ensure Google Play Services are available
+      await GoogleSignin.hasPlayServices();
+
+      // Sign in the user
+      const googleInfo = await GoogleSignin.signIn();
+      console.log('User Info:', googleInfo);
+
+      // You can use userInfo.idToken to send to your server for verification
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('User cancelled the login process');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('Sign-In in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Google Play Services not available or outdated');
+      } else {
+        console.log('Error', error.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '324113739001-73sdi0mjt45i819cq8cen4f9fdh44ij2.apps.googleusercontent.com', // Replace with your actual Client ID
+        offlineAccess: true,
+    });
+  }, []);
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        barStyle={'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+
+      <Button title="Sign In with Google" onPress={signInWithGoogle} />
+      <Button title="Login with Facebook" onPress={onFacebookLogin} />
+      {userInfo && (
+        <View>
+          <Text>Name: {userInfo.name}</Text>
+          <Text>Email: {userInfo.email}</Text>
+          <Text>Profile Picture: {userInfo.picture.data.url}</Text>
         </View>
-      </ScrollView>
+      )}
+      {/* <Login/> */}
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
