@@ -17,7 +17,7 @@
           android:value="324113739001-73sdi0mjt45i819cq8cen4f9fdh44ij2.apps.googleusercontent.com" />
       <meta-data
         android:name="com.google.android.gms.auth.api.signin.API_KEY"
-        android:value="324113739001-73sdi0mjt45i819cq8cen4f9fdh44ij2.apps.googleusercontent.com"/>
+        android:value="AIzaSyDUTABPo2VbxcyZ8MXLUUJvBow7hbS7qS4"/>
         <meta-data
     android:name="com.google.android.gms.auth.api.signin.CLIENT_ID"
     android:value="324113739001-73sdi0mjt45i819cq8cen4f9fdh44ij2.apps.googleusercontent.com" />
@@ -34,6 +34,12 @@
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+         <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="@string/appAuthRedirectScheme" android:host="oauth2redirect" />
         </intent-filter>
       </activity>
     </application>

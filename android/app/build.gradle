@@ -84,6 +84,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        resValue "string", "appAuthRedirectScheme", "\"com.project\""
+        manifestPlaceholders = [appAuthRedirectScheme: 'com.redirectScheme.comm']
     }
     signingConfigs {
         debug {
@@ -112,6 +114,7 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+    implementation 'com.facebook.android:facebook-login:latest.release'
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
