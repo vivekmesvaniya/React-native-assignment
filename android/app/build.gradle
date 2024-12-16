@@ -85,7 +85,7 @@ android {
         versionCode 1
         versionName "1.0"
         resValue "string", "appAuthRedirectScheme", "\"com.project\""
-        manifestPlaceholders = [appAuthRedirectScheme: 'com.redirectScheme.comm']
+       
     }
     signingConfigs {
         debug {
@@ -98,6 +98,7 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+             manifestPlaceholders = [appAuthRedirectScheme: 'com.redirectScheme.comm']
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -105,6 +106,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+             manifestPlaceholders = [appAuthRedirectScheme: 'com.redirectScheme.comm']
         }
     }
 }

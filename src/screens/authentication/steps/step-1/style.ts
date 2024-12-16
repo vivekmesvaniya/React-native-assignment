@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {theme} from '../../../../constant/Theme';
 
 export const step1Style = StyleSheet.create({
   container: {
@@ -13,28 +14,29 @@ export const step1Style = StyleSheet.create({
     gap: 8,
   },
   title1Text: {
-    fontWeight: 'light',
-    fontSize: 35,
+    // fontWeight: 'light',
+    fontSize: theme.XL,
     lineHeight: 48.4,
     textAlign: 'center',
-    color: '#F7B174',
+    color: theme.lightPrimaryColor,
+    fontFamily: theme.PoppinsLight,
   },
   title2Text: {
-    fontWeight: '700',
-    fontSize: 35,
+    fontSize: theme.XL,
     lineHeight: 48.4,
-    color: '#F7B174',
+    color: theme.lightPrimaryColor,
+    fontFamily: theme.PoppinsSemiBold,
   },
   descText: {
-    color: '#000000',
-    fontWeight: '400',
-    fontSize: 16,
+    color: theme.blackColor,
+    fontSize: theme.medium,
     lineHeight: 24,
     textAlign: 'center',
+    fontFamily: theme.PoppinsRegular,
   },
   bottomSheetContainer: {
     flex: 1,
-    backgroundColor: '#F7B174',
+    backgroundColor: theme.primaryColor,
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
     paddingHorizontal: 30,
@@ -83,25 +85,25 @@ export const step1Style = StyleSheet.create({
     gap: 15,
   },
   facebookButtonText: {
-    fontWeight: '500',
-    fontSize: 16,
+    fontSize: theme.medium,
     lineHeight: 24,
-    color: '#ffffff',
+    color: theme.secondaryColor,
+    fontFamily: theme.PoppinsMedium,
   },
   googleButtonContainer: {
     width: '100%',
     borderRadius: 50,
     height: 60,
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.secondaryColor,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 15,
   },
   googleButtonText: {
-    fontWeight: '500',
-    fontSize: 16,
+    fontSize: theme.medium,
     lineHeight: 24,
     color: 'rgba(0, 0, 0, 0.54)',
+    fontFamily: theme.PoppinsMedium,
   },
 });

@@ -1,11 +1,23 @@
-import {View, Text} from 'react-native';
 import React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Login from '../screens/authentication';
+import Profile from '../screens/profile';
 
 const Navigation = () => {
+  const Stack = createNativeStackNavigator();
   return (
-    <View>
-      <Text>Navigation</Text>
-    </View>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{animation: 'ios_from_left'}}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{animation: 'ios_from_left'}}
+      />
+    </Stack.Navigator>
   );
 };
 

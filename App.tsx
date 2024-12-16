@@ -16,6 +16,7 @@ import {
 import {AccessToken, LoginManager} from 'react-native-fbsdk-next';
 import Login from './src/screens/authentication';
 import {authorize} from 'react-native-app-auth';
+import Screens from './src/screens';
 
 function App(): React.JSX.Element {
   const backgroundStyle = {
@@ -30,7 +31,7 @@ function App(): React.JSX.Element {
   const linkedInConfig = {
     clientId: '77o1zvcvg4hv20',
     clientSecret: 'WPL_AP1.MJuiR7h8SkWUheQZ.uIFgRw==',
-    redirectUrl: 'http://project/auth/linkedin/callback', // For example: https://www.yourapp.com/auth/linkedin/callback
+    redirectUrl: 'https://linkedin-redirect-page-qipq.vercel.app/index.html', // For example: https://www.yourapp.com/auth/linkedin/callback
     scopes: ['r_liteprofile', 'r_emailaddress'], // Permissions you need
     serviceConfiguration: {
       authorizationEndpoint: 'https://www.linkedin.com/oauth/v2/authorization',
@@ -154,9 +155,9 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
 
-      <Button title="Sign In with Google" onPress={signInWithGoogle} />
-      <Button title="Login with Facebook" onPress={onFacebookLogin} />
-      {userInfo && (
+      {/*<Button title="Sign In with Google" onPress={signInWithGoogle} />
+      <Button title="Login with Facebook" onPress={onFacebookLogin} />*/}
+      {/* {userInfo && (
         <View>
           <Text style={{color: 'black'}}>Name: {userInfo.name}</Text>
           <Text style={{color: 'black'}}>Email: {userInfo.email}</Text>
@@ -168,7 +169,7 @@ function App(): React.JSX.Element {
             Profile Picture: {userInfo.picture.data.url}
           </Text>
         </View>
-      )}
+      )} */}
       {/* {googleInfo && googleInfo.data && googleInfo?.data.user && (
         <View>
           <Text style={{color: 'black'}}>
@@ -185,10 +186,11 @@ function App(): React.JSX.Element {
           )}
         </View>
       )} */}
-      <Button title="Log out from google" onPress={handleLogout} />
+      {/* <Button title="Log out from google" onPress={handleLogout} /> */}
 
-      <Button title="Login with LinkedIn" onPress={handleLinkedInLogin} />
+      {/* <Button title="Login with LinkedIn" onPress={handleLinkedInLogin} /> */}
       {/* <Login/> */}
+      <Screens />
     </SafeAreaView>
   );
 }
