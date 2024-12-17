@@ -6,7 +6,7 @@ export const primaryButtonStyle = StyleSheet.create({
     flex: 0,
     height: 60,
     borderRadius: 50,
-    // backgroundColor: theme.primaryColor,
+    backgroundColor: theme.primaryColor,
     paddingVertical: 15,
     paddingHorizontal: 10,
     alignItems: 'center',
