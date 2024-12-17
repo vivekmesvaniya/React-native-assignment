@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Project</string>
-    <string name="facebook_app_id">8724098627639223</string>
-    <string name="facebook_client_token">b80fddd12dca3068d228d6327145b51f</string>
-    <string name="fb_login_protocol_scheme">fb8724098627639223</string>
+    <string name="app_name">Social Authentication</string>
+    <string name="facebook_app_id">9312052105493181</string>
+    <string name="facebook_client_token">8a6341ea888937f72b3658dade4c5f11</string>
+    <string name="fb_login_protocol_scheme">fb9312052105493181</string>
      <string name="appAuthRedirectScheme">com.project</string>
 </resources>

@@ -1,4 +1,4 @@
-import {View, Dimensions} from 'react-native';
+import {View, Dimensions, Alert, BackHandler} from 'react-native';
 import React, {useEffect, useState} from 'react';
 //@ts-ignore
 import AnimatedMultistep from 'react-native-animated-multistep';
@@ -11,14 +11,14 @@ import Step4 from './steps/step-4';
 
 const Login = () => {
   const [progress, setProgress] = useState(0.25);
-  const [isHorizontal, setIsHorizontal] = useState({
+  const [dynamicHeightWidth, setDynamicHeightWidth] = useState({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   });
 
   const updateOrientation = () => {
     const {width, height} = Dimensions.get('window');
-    setIsHorizontal({width, height});
+    setDynamicHeightWidth({width, height});
   };
   const steps = [
     {
@@ -55,8 +55,28 @@ const Login = () => {
       updateOrientation,
     );
 
+    const backAction = () => {
+      Alert.alert('Alert!', 'Are you sure you want to exit the app?', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => BackHandler.exitApp(),
+        },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
     return () => {
       subscription?.remove();
+      backHandler.remove();
     };
   }, []);
   return (
@@ -65,7 +85,7 @@ const Login = () => {
         <Progress.Bar
           progress={progress}
           color="#F7B174"
-          width={isHorizontal?.width / 1.2}
+          width={dynamicHeightWidth?.width / 1.2}
           style={loginStyle.progress}
         />
       </View>

@@ -25,8 +25,10 @@ const Step1 = ({
       await GoogleSignin.hasPlayServices();
 
       const googleInfoData = await GoogleSignin.signIn();
-      saveState({googleData: googleInfoData});
-      next();
+      if (googleInfoData.type !== 'cancelled') {
+        saveState({googleData: googleInfoData});
+        next();
+      }
     } catch (error: any) {
       console.log(error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -49,29 +51,31 @@ const Step1 = ({
       ]);
 
       if (result.isCancelled) {
-        Alert.alert('Alert', 'User cancelled the login process');
+        Alert.alert('Alert', 'User cancelled the login process!');
         return;
       }
 
       const data = await AccessToken.getCurrentAccessToken();
 
       if (data) {
-        fetch(
-          `https://graph.facebook.com/me?access_token=${data.accessToken.toString()}&fields=id,name,email,picture`,
-        )
-          .then(response => response.json())
-          .then(json => {
-            console.log('User data from Facebook:', json);
-            saveState(json);
-            next();
-          })
-          .catch(error => {
-            Alert.alert('Alert', 'Some Problem Occurs to get User data');
-            console.log('Error fetching user data:', error);
-          });
+        try {
+          const response = await fetch(
+            `https://graph.facebook.com/me?access_token=${data.accessToken.toString()}&fields=id,name,email,picture`,
+          );
+          const json = await response.json();
+
+          saveState({facebookData: json});
+          next();
+        } catch (error) {
+          Alert.alert(
+            'Alert',
+            'Some problem occurred while fetching user data!',
+          );
+          console.error('Error fetching user data:', error);
+        }
       }
     } catch (error) {
-      Alert.alert('Error', 'Something went wrong');
+      Alert.alert('Error', 'Something went wrong!');
       console.error('Facebook Login Error:', error);
     }
   };
@@ -101,19 +105,19 @@ const Step1 = ({
           </View>
           <View style={step1Style.buttonContainer}>
             <Pressable
-              style={step1Style.facebookButton}
-              onPress={() => facebookLogin()}>
-              <FaceBookIcon height={24} width={24} fill={'#ffffff'} />
-              <Text style={step1Style.facebookButtonText}>
-                Continue With FaceBook
-              </Text>
-            </Pressable>
-            <Pressable
               style={step1Style.googleButtonContainer}
               onPress={() => googleLogin()}>
               <GoogleIcon />
               <Text style={step1Style.googleButtonText}>
                 Continue With Google
+              </Text>
+            </Pressable>
+            <Pressable
+              style={step1Style.facebookButton}
+              onPress={() => facebookLogin()}>
+              <FaceBookIcon height={24} width={24} fill={'#ffffff'} />
+              <Text style={step1Style.facebookButtonText}>
+                Continue With FaceBook
               </Text>
             </Pressable>
           </View>
